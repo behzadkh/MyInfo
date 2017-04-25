@@ -1,0 +1,18 @@
+db.createRole({role:'executeEval',privileges:[{resource:{anyResource:true},actions:['anyAction']}],roles:[]})
+
+var user = {"user":"admin","pwd":"123",roles:[{"role":"dbAdminAnyDatabase","db":"admin"},{"role":"executeEval","db":"admin"}]}
+
+db.createUser(user);
+
+var user = {"user":"myuser","pwd":"123",roles:[{"role":"dbOwner","db":"mydb"},{"role":"executeEval","db":"admin"},{"role":"readWrite","db":"mydb"}]}
+
+
+./mongod --dbpath=/home/bkhosrojerdi/Desktop/Java_Program/mongodb-linux-x86_64-ubuntu1604-3.4.1/data/db --auth
+
+./mongo 
+
+./mongodump --host 127.0.0.1 --port 27017 -d mydb --authenticationDatabase mydb  -u myuser -p 123 -v --gzip
+
+./mongorestore --host 192.168.1.107 --port 27017 -d mydb -v --dir=/home/bkhosrojerdi/Desktop/Java_Program/mongodb-linux-x86_64-ubuntu1604-3.4.1/bin/dump/mydb --gzip
+
+
