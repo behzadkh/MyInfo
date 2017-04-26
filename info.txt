@@ -1,0 +1,14 @@
+--------- websocket info -----------------
+
+http://blog.arungupta.me/rest-vs-websocket-comparison-benchmarks/
+https://github.com/javaee-samples/javaee7-samples/tree/master/websocket/websocket-vs-rest
+
+http://blog.arungupta.me/securing-websocket-wss-https-tls-techtip50/
+
+http://blog.arungupta.me/securing-websockets-username-password-servlet-security-techtip49/
+
+http://blog.arungupta.me/stomp-over-websocket-tech-tip-53/
+
+
+----------------- ------------------------------
+
