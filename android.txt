@@ -1,0 +1,2 @@
+ip for virtual 10.0.2.2
+ip wireless 10.42.0.1
