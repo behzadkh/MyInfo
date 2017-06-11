@@ -16,3 +16,4 @@ var user = {"user":"myuser","pwd":"123",roles:[{"role":"dbOwner","db":"mydb"},{"
 ./mongorestore --host 192.168.1.107 --port 27017 -d mydb -v --dir=/home/bkhosrojerdi/Desktop/Java_Program/mongodb-linux-x86_64-ubuntu1604-3.4.1/bin/dump/mydb --gzip
 
 
+db.tablename.update({"collectionName.$.fieldName": true},{$set:{"collectionName.$.fieldName" : false}})
