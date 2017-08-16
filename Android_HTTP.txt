@@ -1,0 +1,92 @@
+Apache HTTP Example
+
+AndroidHttpClient client = AndroidHttpClient.newInstance("AndroidUserAgent");
+HttpGet request = new HttpGet(SERVICE_URL);
+HttpResponse response = client.execute(request);
+String stringResponse = EntityUtils.toString(response.getEntity());
+
+* minimal code for simple HTTP processing
+* Stable,with few bugs
+* Android dev team is not actively working on this package
+* Future focus is on HttpURLConnection
+==================================================================================================
+HttpURLConnection Example
+
+URL url = new URL(SERVICE_URL);
+HttpURLConnection con = (HttpURLConnection)url.openConnection();
+StringBuilder sb = new StringBuilder();
+BufferReader reader = new BufferREader( new InputStreamReader( con.getInputStream()));
+String line = "";
+while((line = reader.readLine()) != null){
+	sb.append(line + "\n");
+}
+reader.close();
+
+
+* low-level code; you can do anything
+* Supports all basic HTTP features
+* in Active develoment by android dev team
+* can require more code than higher-level libraries
+
+=====================================================================================================
+OkHttp
+
+* from Square ; free and open source
+* Supports connection pooling and response caching
+* replaces HttpURLConnection , mimics its API
+* http://square.github.io/okhttp/
+
+========================================================================================================
+Google's Volley
+
+* Comprehensive handling of HTTP downloads
+* Supports parallel requests
+* Uses Gson library to decode JSON-formatted content
+* Handles device configuration changes elegantly
+
+* Documentation is slender
+* No Strict versioning yet
+* you have to compile from source
+
+https://android.googlesource.com/platform/frameworks/volley/
+
+===========================================================================================================
+Square's Retrofit
+
+* manages RESTful services through interface abstraction
+
+public interface GitHubService {
+	@GET("/users/{user}/repos")
+	List<Repo> listRepos(@Path("user")String user);
+}
+
+* Automatically decodes JSON content to typed objects
+* Custom converters, and other features.
+
+* Documentation is better than Volley ,but still sparse
+
+http://square.github.io/retrofit/
+==============================================================================================================
+The Main Thread
+
+* each app has a single foreground thread ( the main thread)
+* All visual elements are on the main thread
+* do not block the main thread!
+* do not access the user interface from other threads!
+
+=============================================================================================================
+Using Background Threads
+
+* Network communications must run in the background
+* Standard Java concurrent programming
+	Thread,Runnable,java.concurrent
+* Android-specific background threads
+	AsyncTask
+=============================================================================================================
+AsyncTask Guidelines
+
+* Intended for shorter tasks,lasting a few seconds
+* Each instance of an AsyncTask can be executed only once
+* AsyncTask objects do not survive config changes
+* 
+
