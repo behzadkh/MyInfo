@@ -1,0 +1,27 @@
+1- go to /etc/systemd/system/
+2- create a file with posfix .service for example: artemis.service
+3-content of file example:
+
+[Unit]
+Description=Apache Artemis Service
+After=syslog.target network.target
+
+[Service]
+Type=forking
+Environment=JAVA_HOME=/var/app/jdk1.8.0_92
+WorkingDirectory=/var/app/apache-artemis-2.1.0/bin/mybroker2/bin
+ExecStart=/var/app/apache-artemis-2.1.0/bin/mybroker2/bin/artemis-service start
+ExecStop=/var/app/apache-artemis-2.1.0/bin/mybroker2/bin/arttemis-service stop
+Restart=on-abort
+
+[Install]
+WantedBy=multi-user.target
+ 
+ 4- systemctl enable artemis.service  => the file Name you created in step 1
+              reenable => if modify it
+ 5-systemctl daemon-reload
+ 6-systemctl start artemis.service
+ for stop => systemctl stop artemis.service
+ for looking at status => systemctl status artemis.service
+ 
+ well done!
