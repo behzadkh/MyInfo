@@ -1,0 +1,31 @@
+  <subsystem xmlns="urn:jboss:domain:messaging:3.0">
+            <hornetq-server>
+            .
+            .
+            .
+            <connectors>
+                <netty-connector name="remote-artemis" socket-binding="remote-artemis"/>
+            </connectors>
+            .
+            <jms-connection-factories>
+              .
+              <pooled-connection-factory name="remote-artemis">
+                        <connectors>
+                            <connector-ref connector-name="remote-artemis"/>
+                        </connectors>
+                        <entries>
+                            <entry name="java:/jms/remoteCF"/>
+                            <entry name="java:jboss/exported/jms/remoteCF"/>
+                        </entries>
+               </pooled-connection-factory>
+                 </hornetq-server>
+        </subsystem>
+        .
+        .
+        <socket-binding-group name="standard-sockets" default-interface="public" port-offset="${jboss.socket.binding.port-offset:0}">
+        .
+             <outbound-socket-binding name="remote-artemis">
+                <remote-destination host="localhost" port="61616"/>
+            </outbound-socket-binding>
+            .
+        </socket-binding-group>
