@@ -1,0 +1,25 @@
+     <subsystem xmlns="urn:jboss:domain:messaging-activemq:1.0">
+            <server name="default">
+            .
+            .
+            .
+            <remote-connector name="remote-artemis" socket-binding="remote-artemis"/>
+            .
+            <pooled-connection-factory name="remote-artemis" entries="java:/jms/remoteCF" connectors="remote-artemis"/>
+     </subsystem>
+     
+     
+<socket-binding-group name="standard-sockets" default-interface="public" port-offset="${jboss.socket.binding.port-offset:0}">
+      .
+      .
+      .
+       <outbound-socket-binding name="remote-artemis">
+            <remote-destination host="localhost" port="61616"/>
+        </outbound-socket-binding>
+ </socket-binding-group>
+ 
+ 
+ in your ejb class insert below code:
+    @Inject
+    @JMSConnectionFactory("java:/jms/remoteCF")
+    private JMSContext context;
