@@ -29,3 +29,11 @@
             </outbound-socket-binding>
             .
         </socket-binding-group>
+
+
+
+in your ejb calss:
+
+    @Inject
+    @JMSConnectionFactory("java:jboss/exported/jms/remoteCF")
+    private JMSContext context;
