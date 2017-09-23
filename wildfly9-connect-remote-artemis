@@ -37,3 +37,8 @@ in your ejb calss:
     @Inject
     @JMSConnectionFactory("java:jboss/exported/jms/remoteCF")
     private JMSContext context;
+    
+ JNDI EXAMPLE:
+            InitialContext ctx = new InitialContext();
+            ConnectionFactory contxt = (ConnectionFactory) ctx.lookup("java:jboss/exported/jms/remoteCF");
+            JMSContext context = contxt.createContext();
