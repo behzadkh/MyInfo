@@ -20,5 +20,14 @@ db.tablename.update({"collectionName.$.fieldName": true},{$set:{"collectionName.
 
 
 // ---------- update many example in native way and in robomongo ------------------
-db.pushinteractive.updateMany({"_id" : {$lt : 1457304}},
+db.interactive.updateMany({"_id" : {$lt : 1457304}},
     { $set: { 'insertdate' : ISODate("2017-11-02T06:23:54.234Z") , 'status' : 'DELIVERED'} })
+    
+db.bulk.updateMany(
+{"_id" : {$gt:1457204 , $lte:1457214  }},
+{ $set: { 'insertdate' : ISODate("2017-10-21T06:23:54.234Z")} }
+)
+    
+    
+// ---------------- mongo dump example ------------------------
+./mongodump --host localhost --port 27017 -d databasename --authenticationDatabase databasename -u username -p pass -v --gzip
