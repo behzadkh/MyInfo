@@ -15,5 +15,10 @@ var user = {"user":"myuser","pwd":"123",roles:[{"role":"dbOwner","db":"mydb"},{"
 
 ./mongorestore --host 192.168.1.107 --port 27017 -d mydb -v --dir=/home/bkhosrojerdi/Desktop/Java_Program/mongodb-linux-x86_64-ubuntu1604-3.4.1/bin/dump/mydb --gzip
 
-
+// -------- native ---------------
 db.tablename.update({"collectionName.$.fieldName": true},{$set:{"collectionName.$.fieldName" : false}})
+
+
+// ---------- update many example in native way and in robomongo ------------------
+db.pushinteractive.updateMany({"_id" : {$lt : 1457304}},
+    { $set: { 'insertdate' : ISODate("2017-11-02T06:23:54.234Z") , 'status' : 'DELIVERED'} })
