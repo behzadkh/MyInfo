@@ -31,3 +31,9 @@ db.bulk.updateMany(
     
 // ---------------- mongo dump example ------------------------
 ./mongodump --host localhost --port 27017 -d databasename --authenticationDatabase databasename -u username -p pass -v --gzip
+
+
+// --- mongodb native create index example ---
+# db.collectionName.createIndex( { field1 : 1, field2: 1}, { unique: true } )
+# db.collectionName.createIndex( {field1 : 1})
+# db.collectionName.createIndex({field1 : 1}, { unique : true} )
