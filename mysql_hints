@@ -1,0 +1,7 @@
+
+# --- in order to another mysql or jdbc connection is able to connect 
+# --- you must set this statement to destination mysql 
+# --- please note the IP and user and pass
+create user 'test_user'@'192.168.1.2' identified by 'passw@rd1A'
+GRANT ALL ON vesal_archive.* TO 'test_user'@'192.168.1.2'
+flush privileges
