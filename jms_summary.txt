@@ -1,0 +1,90 @@
+
+
+An unshared durable subscription is identified by name and client identifier
+(which must be set) and may have only a single consumer object associated with
+it.
+
+-------------
+A shared durable subscription is identified by name and an optional client
+identifier, and may have several consumer objects consuming messages from it.
+---------------
+You can use the JMSContext.createDurableConsumer method to create a consumer on
+an unshared durable subscription. An unshared durable subscription can have only
+one active consumer at a time.
+----------
+You establish the unique identity of an unshared durable subscription by setting the
+following:
+■ A client ID for the connection
+■ A topic and a subscription name for the subscription
+-------------
+You can set the client ID administratively for a client-specific connection factory using
+either the command line or the Administration Console. (In an application client or a
+Java SE client, you can instead call JMSContext.setClientID.)
+------------
+To delete a durable subscription, first close the consumer, then call the unsubscribe
+method with the subscription name as the argument:
+consumer.close();
+context.unsubscribe(subName);
+-----------
+A shared durable subscription allows you to use multiple consumers to receive
+messages from a durable subscription. If you use a shared durable subscription, the
+connection factory you use does not need to have a client identifier. To create a shared
+durable subscription, call the JMSContext.createSharedDurableConsumer method,
+specifying the topic and subscription name:
+JMSConsumer consumer =
+context.createSharedDurableConsumer(topic, "MakeItLast");
+--------
+A shared subscription can
+be useful if you want to share the message load among several consumers on the
+subscription rather than having just one consumer on the subscription receive each
+message. This feature can improve the scalability of Java EE application client
+applications and Java SE applications.
+------
+context.createProducer().send(dest, context.createMessage());
+---------
+The JMS API provides no mechanism for browsing a topic. Messages usually
+disappear from a topic as soon as they appear: If there are no message consumers to
+consume them, the JMS provider removes them. Although durable subscriptions allow messages to remain on a topic while the message consumer is not active, JMS does not
+define any facility for examining them.
+–
+In the Java EE platform, the JMSContext.CLIENT_ACKNOWLEDGE
+setting can be used only in an application client, not in a web
+component or enterprise bean.
+**
+If you do not specify a delivery mode, the default is PERSISTENT
+**
+context.createProducer().setTimeToLive(300000).send(dest, msg);
+If the specified timeToLive value is 0, the message never expires.
+**
+context.createProducer().setDeliveryDelay(3000).send(dest, msg);
+**
+replyMsg = context.createTextMessage("Consumer processed message: "
++ msg.getText());
+replyMsg.setJMSCorrelationID(msg.getJMSMessageID());
+context.createProducer().send((Topic) msg.getJMSReplyTo(), replyMsg);
+
+**
+You use the JMSContext.commit method to commit a transaction
+You can use the JMSContext.rollback method to roll back a transaction
+**
+A transacted session is always involved in a transaction. To create a transacted session,
+call the createContext method as follows:
+JMSContext context =
+connectionFactory.createContext(JMSContext.SESSION_TRANSACTED);
+**
+In an application running in the Java EE web or EJB container, you cannot use local
+transactions. Instead, you use JTA transactions
+
+**
+When you use resource injection in an application client component, you normally
+declare the JMS resource static:
+@Resource(lookup = "java:comp/DefaultJMSConnectionFactory")
+private static ConnectionFactory connectionFactory;
+@Resource(lookup = "jms/MyQueue")
+private static Queue queue;
+However, when you use this annotation in a session bean, a message-driven bean, or a
+web component, do not declare the resource static:
+@Resource(lookup = "java:comp/DefaultJMSConnectionFactory")
+private ConnectionFactory connectionFactory;
+@Resource(lookup = "jms/MyTopic")
+private Topic topic;
