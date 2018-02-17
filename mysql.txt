@@ -1,0 +1,6 @@
+// ---- give permission to user that he/she wants to connect remotely	
+create user 'root'@'192.168.1.2' identified by 'mypassword';
+GRANT ALL ON vesal.* TO 'root'@'192.168.1.2';
+flush privileges;
+
+
