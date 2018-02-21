@@ -1,0 +1,1 @@
+https://www.c2b2.co.uk/middleware-blog/clustering-websockets-on-wildfly.php     => R&D
