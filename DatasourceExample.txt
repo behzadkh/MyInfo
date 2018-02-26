@@ -1,0 +1,40 @@
+ @Resource(name = "testDB",lookup = "java:jboss/datasources/testDB")
+ private DataSource testDS;
+ 
+ 
+ 
+ 
+ // ----------------------------------------------------------------------------------
+       Connection con= null;
+        PreparedStatement stmt= null;
+        try {
+            
+             con = testDS.getConnection();
+            stmt=con.prepareStatement("update table s set s.field1 = ? , s.updateDate=? where s.id = ?");
+            stmt.setBoolean(1,"String");
+            stmt.setDate(2, new java.sql.Date(new Date().getTime()));
+            stmt.setLong(3,1L);
+            int result = stmt.executeUpdate();
+            
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage());
+            if(con != null){
+                try {
+                    con.rollback();
+                } catch (SQLException e1) {
+                    LOGGER.error(e1.getMessage());
+                }
+            }
+        }
+        finally {
+            try {
+                if(stmt != null && !stmt.isClosed()){
+                    stmt.close();
+                }
+                if(con != null && !con.isClosed()){
+                    con.close();
+                }
+            } catch (SQLException e) {
+                LOGGER.error(e.getMessage());
+            }
+        }
