@@ -5,3 +5,7 @@
 create user 'test_user'@'192.168.1.2' identified by 'passw@rd1A'
 GRANT ALL ON vesal_archive.* TO 'test_user'@'192.168.1.2'
 flush privileges
+
+
+#-- export csv from sql in mysql ---
+select id from setting limit 1 INTO OUTFILE '/tmp/test123.csv' FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'  ESCAPED BY '\\' LINES TERMINATED BY '\n';
