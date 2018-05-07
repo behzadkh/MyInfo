@@ -1,0 +1,6 @@
+// ---------------- some important command for network -----------------
+
+sudo service network-manager reload|start|stop|restart|status
+sudo service systemd-resolved status|start|stop
+/etc/resolvconf
+
