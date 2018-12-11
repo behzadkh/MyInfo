@@ -1,0 +1,10 @@
+-- add username and password from terminal
+sudo rabbitmqctl add_user newadmin s0m3p4ssw0rd
+sudo rabbitmqctl set_user_tags newadmin administrator
+sudo rabbitmqctl set_permissions -p / newadmin ".*" ".*" ".*"
+
+-- how to enable rabbitmq management in terminal
+sudo rabbitmq-plugins -n rabbit@{hostname} enable rabbitmq_management
+
+-- default url to connect rabbitmq management
+http://localhost:15672
