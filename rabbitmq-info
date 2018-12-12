@@ -8,3 +8,6 @@ sudo rabbitmq-plugins -n rabbit@{hostname} enable rabbitmq_management
 
 -- default url to connect rabbitmq management
 http://localhost:15672
+
+-- check status of rebbitmq service and start and stop it
+service rabbitmq-server status|start|stop
