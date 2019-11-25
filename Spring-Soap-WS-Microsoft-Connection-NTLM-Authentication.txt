@@ -1,0 +1,75 @@
+// ----------------------- config file in spring boot environment ---------------------
+
+import org.apache.http.auth.NTCredentials;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.oxm.jaxb.Jaxb2Marshaller;
+import org.springframework.ws.client.core.WebServiceTemplate;
+import org.springframework.ws.transport.WebServiceMessageSender;
+import org.springframework.ws.transport.http.HttpComponentsMessageSender;
+
+@Configuration
+public class MyConfig {
+    final String username = "";
+    final String pass = "";
+    final static String WS_URL = "";
+    final String domain = "";
+
+    @Bean
+    public Jaxb2Marshaller marshaller() {
+        Jaxb2Marshaller marshaller = new Jaxb2Marshaller();
+        marshaller.setPackagesToScan("com.example.dynamicnavconnection.wsdl");
+        return marshaller;
+    }
+
+    @Bean
+    public HttpComponentsMessageSender httpComponentsMessageSender() {
+        HttpComponentsMessageSender httpComponentsMessageSender = new HttpComponentsMessageSender();
+        NTCredentials credentials = new NTCredentials(username, String.valueOf(pass), null, domain);
+        httpComponentsMessageSender.setCredentials(credentials);
+        return httpComponentsMessageSender;
+    }
+
+    @Bean
+    public WebServiceTemplate webServiceTemplate(Jaxb2Marshaller marshaller, WebServiceMessageSender messageSender) {
+        WebServiceTemplate webServiceTemplate = new WebServiceTemplate(marshaller, marshaller);
+        webServiceTemplate.setMessageSender(messageSender);
+        return webServiceTemplate;
+    }
+}
+
+
+// ------------------------ my service --------------------------------
+@Service
+public class MyService {
+
+    private static final Logger LOG = LoggerFactory.getLogger(MyService.class);
+    final String WS_URL = "";
+
+    @Autowired
+    private WebServiceTemplate webServiceTemplate;
+
+    public String getQuantity(String param1, String param2){
+        GetQuantity request = new GetQuantity();
+        request.setParam1(param1);
+        request.setParam2(param2);
+     
+        GetQuantityResult quantityResult = (GetQuantityResult) webServiceTemplate.marshalSendAndReceive(WS_URL, request);
+        String value = quantityResult.getReturnValue();
+        LOG.info("result : {}" , value);
+        return value;
+    }
+}
+
+// ---------------------------- MyCallService method -------------------------------
+public void callService(){
+        String quantity1 =myService.getQuantity("123", "");// expected result : 0
+        LOG.info("quantity1: {}", quantity1);
+        String quantity2 = myService.getQuantity("", "123");//expected result : 1
+        LOG.info("quantity2: {}", quantity2);
+}
+
+// ---------------------------------- it is the end of this story :) -----------------------------
+
+
+
